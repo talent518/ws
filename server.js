@@ -21,11 +21,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('public'));
 app.post('/send', function(req, res) {
-	console.log(res.params);
-	const room = req.param('room');
-	const name = req.param('name');
-	const message = req.param('message');
+	const room = req.body.room;
+	const name = req.body.name;
+	const message = req.body.message;
 	io.to(room).emit('chat', {name,message});
+	res.send('已发送');
+	res.end();
 });
 
 app.set('port', process.env.PORT || 6001);
